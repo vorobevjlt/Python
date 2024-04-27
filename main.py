@@ -42,7 +42,6 @@ present_unit = canvas.create_rectangle(x, y, x + 20, y + 20, fill="#80CBC4")
 
 canvas.pack()
 
-
 def move_start():
     x =+ 1
     y =+ 1
@@ -62,6 +61,8 @@ def move_stop():
 # root.bind('<Up>', up)
 
 # root.bind('<Down>', down)
+
 move_start()
+
 if __name__ == "__main__":
     root.mainloop()
