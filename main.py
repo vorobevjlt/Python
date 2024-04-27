@@ -108,7 +108,6 @@ def move():
 def draw():
     global snake, food, snake_body, game_over, score
     move()
-
     canvas.delete("all")
 
     #draw food
@@ -116,7 +115,6 @@ def draw():
 
     #draw snake
     canvas.create_rectangle(snake.x, snake.y, snake.x + TILE_SIZE, snake.y + TILE_SIZE, fill = 'lime green')
-
     for tile in snake_body:
         canvas.create_rectangle(tile.x, tile.y, tile.x + TILE_SIZE, tile.y + TILE_SIZE, fill = 'lime green')
 
