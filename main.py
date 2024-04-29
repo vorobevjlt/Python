@@ -125,4 +125,3 @@ root.bind('<Left>', left)
 
 if __name__ == "__main__":
     root.mainloop()
-    
