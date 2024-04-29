@@ -1,16 +1,11 @@
-import tkinter
-import random  
-
-ROWS = 25
-COLS = 25
-TILE_SIZE = 25
-
-WINDOW_WIDTH = TILE_SIZE * COLS #25*25 = 625
-WINDOW_HEIGHT = TILE_SIZE * ROWS #25*25 = 625
-
-class Tile:
-    def __init__(self, x, y):
-        self.x = x
+from tkinter import *
+import random
+import time
+cell = [405]
+speed = 10
+class Position:
+    def __init__(self, x = 0, y = 0):
+        self.x = random.choice(cell)
         self.y = y
 
 #game window
@@ -20,111 +15,106 @@ window.resizable(False, False)
 
 canvas = tkinter.Canvas(window, bg = "black", width = WINDOW_WIDTH, height = WINDOW_HEIGHT, borderwidth = 0, highlightthickness = 0)
 canvas.pack()
-window.update()
 
-#center the window
-window_width = window.winfo_width()
-window_height = window.winfo_height()
-screen_width = window.winfo_screenwidth()
-screen_height = window.winfo_screenheight()
+def move_start():
+    unit.y = unit.y + 1
+    canvas.delete("s_unit")
+    if unit.x + unit_shape.shape_x > WIDTH:
+        unit.x = 400
+        lay_ground = unit.x - unit_shape.shape_x
 
-window_x = int((screen_width/2) - (window_width/2))
-window_y = int((screen_height/2) - (window_height/2))
-
-#format "(w)x(h)+(x)+(y)"
-window.geometry(f"{window_width}x{window_height}+{window_x}+{window_y}")
-
-#initialize game
-snake = Tile(TILE_SIZE * 5, TILE_SIZE * 5) #single tile, snake's head
-food = Tile(TILE_SIZE * 10, TILE_SIZE * 10)
-velocityX = 0
-velocityY = 0
-snake_body = [] #multiple snake tiles
-game_over = False
-score = 0
-
-#game loop
-def change_direction(e): #e = event
-    # print(e)
-    # print(e.keysym)
-
-    global velocityX, velocityY, game_over
-    if (game_over):
-        return #edit this code to reset game variables to play again
-
-    if (e.keysym == "Up" and velocityY != 1):
-        velocityX = 0
-        velocityY = -1
+        position = canvas.create_rectangle(
+            unit.x, unit.y, 
+            lay_ground, 
+            unit.y - unit_shape.shape_y, 
+            fill="#80CBC4",
+            tags="s_unit"
+            )
         
-    elif (e.keysym == "Down" and velocityY != -1):
-        velocityX = 0
-        velocityY = 1
+    elif unit.x + unit_shape.shape_x < WIDTH:
+        unit.x = 5
+        lay_ground = unit.x + unit_shape.shape_x
 
-    elif (e.keysym == "Left" and velocityX != 1):
-        velocityX = -1
-        velocityY = 0
-
-    elif (e.keysym == "Right" and velocityX != -1):
-        velocityX = 1
-        velocityY = 0
-
-
-def move():
-    global snake, food, snake_body, game_over, score
-    if (game_over):
-        return
-    
-    if (snake.x < 0 or snake.x >= WINDOW_WIDTH or snake.y < 0 or snake.y >= WINDOW_HEIGHT):
-        game_over = True
-        return
-    
-    for tile in snake_body:
-        if (snake.x == tile.x and snake.y == tile.y):
-            game_over = True
-            return
-    
-    #collision
-    if (snake.x == food.x and snake.y == food.y): 
-        snake_body.append(Tile(food.x, food.y))
-        food.x = random.randint(0, COLS-1) * TILE_SIZE
-        food.y = random.randint(0, ROWS-1) * TILE_SIZE
-        score += 1
-
-    #update snake body
-    for i in range(len(snake_body)-1, -1, -1):
-        tile = snake_body[i]
-        if (i == 0):
-            tile.x = snake.x
-            tile.y = snake.y
-        else:
-            prev_tile = snake_body[i-1]
-            tile.x = prev_tile.x
-            tile.y = prev_tile.y
-    
-    snake.x += velocityX * TILE_SIZE
-    snake.y += velocityY * TILE_SIZE
-
-
-def draw():
-    global snake, food, snake_body, game_over, score
-    move()
-    canvas.delete("all")
-
-    #draw food
-    canvas.create_rectangle(food.x, food.y, food.x + TILE_SIZE, food.y + TILE_SIZE, fill = 'red')
-
-    #draw snake
-    canvas.create_rectangle(snake.x, snake.y, snake.x + TILE_SIZE, snake.y + TILE_SIZE, fill = 'lime green')
-    for tile in snake_body:
-        canvas.create_rectangle(tile.x, tile.y, tile.x + TILE_SIZE, tile.y + TILE_SIZE, fill = 'lime green')
-
-    if (game_over):
-        canvas.create_text(WINDOW_WIDTH/2, WINDOW_HEIGHT/2, font = "Arial 20", text = f"Game Over: {score}", fill = "white")
+        position = canvas.create_rectangle(
+            unit.x, unit.y, 
+            lay_ground, 
+            unit.y - unit_shape.shape_y, 
+            fill="#80CBC4",
+            tags="s_unit"
+            )        
     else:
-        canvas.create_text(30, 20, font = "Arial 10", text = f"Score: {score}", fill = "white")
-    
-    window.after(100, draw) #call draw again every 100ms (1/10 of a second) = 10 frames per second
+        lay_ground = unit.x - unit_shape.shape_x
 
-draw()
-window.bind("<KeyRelease>", change_direction) #when you press on any key and then let go
-window.mainloop() #used for listening to window events like key presses
+        position = canvas.create_rectangle(
+            unit.x, unit.y, 
+            lay_ground,
+            unit.y - unit_shape.shape_y, 
+            fill="#80CBC4",
+            tags="s_unit"
+            )
+        
+    repeat = root.after(speed, move_start)
+
+    if unit.y >= 200 or (unit.y - unit_shape.shape_y) >= 200:
+
+        position = canvas.create_rectangle(
+            unit.x, unit.y, 
+            lay_ground, 
+            unit.y - unit_shape.shape_y,
+            fill="#80CBC4",
+            tags="stay_unit"
+            )
+        print((unit.x + unit_shape.shape_x), (unit.y - unit_shape.shape_y))
+        root.after_cancel(repeat)
+        unit.y = 0
+        unit.x = random.choice(cell)
+        move_start()       
+
+move_start()
+
+def up(event):
+    if unit_shape.shape_x == 20:
+        unit_shape.shape_x = 80
+        unit_shape.shape_y = 20
+    else:
+        unit_shape.shape_x = 20
+        unit_shape.shape_y = 80
+
+def left(event):
+    idx = cell.index(unit.x)
+    unit.x = cell[idx - 1]
+
+def right(event):
+    unit.x - 20
+
+# def right(event):
+#     x =+ 10
+#     y = 0
+#     canvas.move(present_unit, x, y)
+
+# def left(event):
+#     x = 0
+#     y =- 10
+#     canvas.move(present_unit, x, y)
+
+# def down(event):
+#     x = 0
+#     y =+ 10
+#     canvas.move(present_unit, x, y)
+
+# def move_forw():
+#     x = 0
+#     y =+ 10
+#     canvas.move(present_unit, x, y)
+
+root.bind('<Up>', up)
+
+root.bind('<Right>', right)
+
+root.bind('<Left>', left)
+
+# root.bind('<Down>', down)
+
+if __name__ == "__main__":
+    root.mainloop()
+    
