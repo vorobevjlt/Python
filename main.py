@@ -1,7 +1,7 @@
 from tkinter import *
 import random
-import time
-cell = [405]
+cell = [25, 45, 65, 85, 105, 125, 145, 165, 185, 205]
+apearCell = [85, 105, 125]
 speed = 10
 class Position:
     def __init__(self, x = 0, y = 0):
@@ -13,47 +13,26 @@ class Form:
         self.shape_x = 20
         self.shape_y = 80
 
-WIDTH = 400
-HEIGHT = 600
-BACKGROUND_COLOR = "#31554f"
+
+w = 225
+h = 800
+b = "#31554f"
 unit = Position()
 unit_shape = Form()
 lay_ground = 0
+save_right = 0
 root = Tk()
-root.geometry("500x700")
-canvas = Canvas(root, bg=BACKGROUND_COLOR, height=HEIGHT, width=WIDTH)
+root.geometry("400x600")
+canvas = Canvas(root, bg=b, height=h, width=w)
 canvas.pack()
 
 def move_start():
     unit.y = unit.y + 1
     canvas.delete("s_unit")
-    if unit.x + unit_shape.shape_x > WIDTH:
-        unit.x = 400
-        lay_ground = unit.x - unit_shape.shape_x
 
-        position = canvas.create_rectangle(
-            unit.x, unit.y, 
-            lay_ground, 
-            unit.y - unit_shape.shape_y, 
-            fill="#80CBC4",
-            tags="s_unit"
-            )
-        
-    elif unit.x + unit_shape.shape_x < WIDTH:
-        unit.x = 5
-        lay_ground = unit.x + unit_shape.shape_x
+    lay_ground = unit.x + unit_shape.shape_x
 
-        position = canvas.create_rectangle(
-            unit.x, unit.y, 
-            lay_ground, 
-            unit.y - unit_shape.shape_y, 
-            fill="#80CBC4",
-            tags="s_unit"
-            )        
-    else:
-        lay_ground = unit.x - unit_shape.shape_x
-
-        position = canvas.create_rectangle(
+    position = canvas.create_rectangle(
             unit.x, unit.y, 
             lay_ground,
             unit.y - unit_shape.shape_y, 
@@ -63,7 +42,7 @@ def move_start():
         
     repeat = root.after(speed, move_start)
 
-    if unit.y >= 200 or (unit.y - unit_shape.shape_y) >= 200:
+    if unit.y >= 500 or (unit.y - unit_shape.shape_y) >= 500:
 
         position = canvas.create_rectangle(
             unit.x, unit.y, 
@@ -75,13 +54,17 @@ def move_start():
         print((unit.x + unit_shape.shape_x), (unit.y - unit_shape.shape_y))
         root.after_cancel(repeat)
         unit.y = 0
-        unit.x = random.choice(cell)
+        unit.x = random.choice(apearCell)
         move_start()       
 
 move_start()
 
 def up(event):
-    if unit_shape.shape_x == 20:
+    if unit.x > cell[-5] and unit_shape.shape_y == 80:
+        unit.x = cell[-5]
+        unit_shape.shape_x = 80
+        unit_shape.shape_y = 20
+    elif unit.x <= cell[-5] and unit_shape.shape_y == 80:
         unit_shape.shape_x = 80
         unit_shape.shape_y = 20
     else:
@@ -90,30 +73,22 @@ def up(event):
 
 def left(event):
     idx = cell.index(unit.x)
-    unit.x = cell[idx - 1]
+    print(unit.x, "left")
+    if idx == 0:
+        unit.x = cell[idx]
+    else:    
+        unit.x = cell[idx - 1]
 
 def right(event):
-    unit.x - 20
-
-# def right(event):
-#     x =+ 10
-#     y = 0
-#     canvas.move(present_unit, x, y)
-
-# def left(event):
-#     x = 0
-#     y =- 10
-#     canvas.move(present_unit, x, y)
-
-# def down(event):
-#     x = 0
-#     y =+ 10
-#     canvas.move(present_unit, x, y)
-
-# def move_forw():
-#     x = 0
-#     y =+ 10
-#     canvas.move(present_unit, x, y)
+    idx = cell.index(unit.x) 
+    if idx == len(cell)-2:
+        unit.x = cell[idx]
+    elif (unit.x + unit_shape.shape_x > cell[-1]) and (unit_shape.shape_y == 80):
+        unit.x = cell[-2]
+    elif (unit.x + unit_shape.shape_x > cell[-2]) and (unit_shape.shape_y == 20):
+        unit.x = cell[-5]        
+    else:    
+        unit.x = cell[idx + 1]
 
 root.bind('<Up>', up)
 
@@ -121,7 +96,7 @@ root.bind('<Right>', right)
 
 root.bind('<Left>', left)
 
-# root.bind('<Down>', down)
+root.bind('<>')
 
 if __name__ == "__main__":
     root.mainloop()
