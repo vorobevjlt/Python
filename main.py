@@ -8,12 +8,20 @@ class Position:
         self.x = random.choice(cell)
         self.y = y
 
-#game window
-window = tkinter.Tk()
-window.title("Snake")
-window.resizable(False, False)
+class Form:
+    def __init__(self, shape_x = 0, shape_y = 0):
+        self.shape_x = 20
+        self.shape_y = 80
 
-canvas = tkinter.Canvas(window, bg = "black", width = WINDOW_WIDTH, height = WINDOW_HEIGHT, borderwidth = 0, highlightthickness = 0)
+WIDTH = 400
+HEIGHT = 600
+BACKGROUND_COLOR = "#31554f"
+unit = Position()
+unit_shape = Form()
+lay_ground = 0
+root = Tk()
+root.geometry("500x700")
+canvas = Canvas(root, bg=BACKGROUND_COLOR, height=HEIGHT, width=WIDTH)
 canvas.pack()
 
 def move_start():
@@ -117,4 +125,3 @@ root.bind('<Left>', left)
 
 if __name__ == "__main__":
     root.mainloop()
-    
