@@ -1,11 +1,12 @@
 from tkinter import *
 import random
 from bisect import bisect
+from config import *
 # Клетки по оси Х
 x_cell = [-15, 5, 25, 45, 65, 85, 105, 125, 145, 165, 185, 205, 225]
 # Клетки по оси Y
-y_cell = [20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340, 360, 380, 400, 420, 440, 460, 480, 500, 520, 540, 560, 580, 600, 620, 640]
-apearCell = [165,185]
+y_cell = [-80 ,-60, -40 ,-20, 0 ,20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340, 360, 380, 400, 420, 440, 460, 480, 500, 520, 540, 560, 580, 600, 620, 640]
+apearCell = [105,125]
 speed = 10
 
 class Form:
@@ -13,22 +14,7 @@ class Form:
         self.shape_x = 20
         self.shape_y = 80
 
-class Ground:
-    def __init__(self, shape_x = 0):
-        self.height = 0
-
-w = 225
-h = 600
-b = "#31554f"
 unit_shape = Form()
-field_ground = Ground()
-shape_x = 0
-shape_y = 0
-root = Tk()
-root.geometry("400x600")
-canvas = Canvas(root, bg=b, height=h, width=w)
-canvas.pack()
-
 
 class Position:
     def __init__(self, x = 0, y = 0):
@@ -61,6 +47,7 @@ class Position:
                 self.field[y][x] = True
 
     def edge(self):
+
         y = self.get_y_pos(self.y)
         if self.x == x_cell[0]:
             x_right = x_cell[-1]
@@ -79,7 +66,6 @@ class Position:
         else:
             self.flag_left = 0
             self.flag_right = 0
-        print(unit.y > unit.flag_left ,unit.y > unit.flag_right, " unit flag")    
       
 unit = Position()
 
