@@ -2,10 +2,10 @@ from tkinter import *
 import random
 from bisect import bisect
 # Клетки по оси Х
-x_cell = [25, 45, 65, 85, 105, 125, 145, 165, 185, 205]
+x_cell = [-15, 5, 25, 45, 65, 85, 105, 125, 145, 165, 185, 205, 225]
 # Клетки по оси Y
 y_cell = [20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340, 360, 380, 400, 420, 440, 460, 480, 500, 520, 540, 560, 580, 600, 620, 640]
-apearCell = [165,185,205]
+apearCell = [165,185]
 speed = 10
 
 class Form:
@@ -34,9 +34,12 @@ class Position:
     def __init__(self, x = 0, y = 0):
         self.x = random.choice(apearCell)
         self.y = y
+        self.flag_left = 0
+        self.flag_right = 0
         # Игровое поле ввиде матрицы значений (True, False)
         # Каждый ключ это одно из значений y_cell
-        self.field = {20: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 40: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 60: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 80: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 100: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 120: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 140: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 160: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 180: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 200: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 220: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 240: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 260: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 280: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 300: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 320: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 340: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 360: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 380: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 400: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 420: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 440: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 460: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 480: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 500: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 520: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 540: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 560: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 580: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 600: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}, 620: {25: True, 45: True, 65: True, 85: True, 105: True, 125: True, 145: True, 165: True, 185: True, 205: True}, 640: {25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False}}
+        self.field = {20: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 40: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 60: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 80: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 100: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 120: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 140: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 160: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 180: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 200: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 220: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 240: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 260: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 280: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 300: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 320: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 340: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 360: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 380: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 400: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 420: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 440: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 460: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 480: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 500: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 520: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 540: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 560: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 580: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 600: {-15: True, 5: False, 25: False, 45: False, 65: False, 85: False, 105: False, 125: False, 145: False, 165: False, 185: False, 205: False, 225: True}, 620: {-15: True, 5: True, 25: True, 45: True, 65: True, 85: True, 105: True, 125: True, 145: True, 165: True, 185: True, 205: True, 225: True}, 640: {-15: True, 5: True, 25: True, 45: True, 65: True, 85: True, 105: True, 125: True, 145: True, 165: True, 185: True, 205: True, 225: True}}
+
 
     def get_condition(self, x, y):
         return self.field[y][x]
@@ -56,11 +59,32 @@ class Position:
         for y in y_coor:
             for x in x_coor:
                 self.field[y][x] = True
+
+    def edge(self):
+        y = self.get_y_pos(self.y)
+        if self.x == x_cell[0]:
+            x_right = x_cell[-1]
+        elif self.x - unit_shape.shape_x < x_cell[0]:
+            x_left = x_cell[0]
+        else:
+            x_right = self.x + unit_shape.shape_x
+            x_left = self.x - unit_shape.shape_x
+        if self.get_condition(x_left, y) and self.get_condition(x_right, y):
+            self.flag_left = self.y + shape_y
+            self.flag_right = self.y + shape_y
+        elif self.get_condition(x_left, y):
+            self.flag_left = self.y + shape_y
+        elif self.get_condition(x_right, y):
+            self.flag_right = self.y + shape_y
+        else:
+            self.flag_left = 0
+            self.flag_right = 0
+        print(unit.y > unit.flag_left ,unit.y > unit.flag_right, " unit flag")    
       
 unit = Position()
 
 def move_start():
-    unit.y = unit.y + 1
+    unit.y += 1
     canvas.delete("s_unit")
     shape_x = unit.x + unit_shape.shape_x
     shape_y = unit.y - unit_shape.shape_y
@@ -73,6 +97,7 @@ def move_start():
             )
     repeat = root.after(speed, move_start)
     idx = bisect(y_cell, unit.y)
+    unit.edge()
     if unit.get_condition(unit.x, y_cell[idx]):
         position = canvas.create_rectangle(
             unit.x, unit.y, 
@@ -93,14 +118,12 @@ def up(event):
     pass
 
 def left(event):
-    pass
+    if unit.y > unit.flag_left and (unit.x - 20) >= x_cell[0]:
+        unit.x -= 20
 
 def right(event):
-    y = unit.get_y_pos(unit.y)
-    x = unit.x + 20
-    if x in x_cell:
-        unit.x = unit.x + 20
-        print(unit.get_condition(x, y))
+    if unit.y > unit.flag_right and (unit.x + 20) <= x_cell[-1]:
+        unit.x += 20
 
 def speedUp(event):
     for k, v in unit.field.items():
